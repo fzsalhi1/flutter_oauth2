@@ -4,12 +4,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_oauth2/helper/sliderightroute.dart';
-import 'package:flutter_oauth2/screens/home.dart';
-import 'package:flutter_oauth2/screens/register.dart';
+import 'package:flutter_oauth2/screens/home.dart';       // Import correct
+import 'package:flutter_oauth2/screens/register.dart';   // Import correct
 import 'package:flutter_oauth2/services/auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_oauth2/services/api_service.dart';
-
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key, required this.errMsg}) : super(key: key);
@@ -39,7 +38,6 @@ class _StatefulLoginWidgetState extends State<StatefulLoginWidget> {
   final _passwordController = TextEditingController();
   final ApiService apiService = ApiService();
 
-
   @override
   void initState() {
     super.initState();
@@ -49,7 +47,10 @@ class _StatefulLoginWidgetState extends State<StatefulLoginWidget> {
   Future<void> _checkToken() async {
     final token = await storage.read(key: "token");
     if (token != null && mounted) {
-      Navigator.pushReplacement(context, SlideRightRoute(page: const HomeScreen()));
+      Navigator.pushReplacement(
+        context,
+        SlideRightRoute(page: const HomeScreen()),  // Correct usage
+      );
     }
   }
 
@@ -72,7 +73,10 @@ class _StatefulLoginWidgetState extends State<StatefulLoginWidget> {
           final data = jsonDecode(res.body);
           await storage.write(key: "token", value: data['access_token']);
           await storage.write(key: "refresh_token", value: data['refresh_token']);
-          Navigator.pushReplacement(context, SlideRightRoute(page: const HomeScreen()));
+          Navigator.pushReplacement(
+            context,
+            SlideRightRoute(page: const HomeScreen()),  // Correct usage
+          );
           break;
         case 401:
         default:
@@ -82,7 +86,9 @@ class _StatefulLoginWidgetState extends State<StatefulLoginWidget> {
   }
 
   void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
@@ -136,7 +142,8 @@ class _StatefulLoginWidgetState extends State<StatefulLoginWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       child: TextFormField(
         controller: _passwordController,
-        validator: (value) => value == null || value.isEmpty ? 'Please enter your password' : null,
+        validator: (value) =>
+        value == null || value.isEmpty ? 'Please enter your password' : null,
         obscureText: true,
         decoration: _inputDecoration('Password', Icons.password),
         style: const TextStyle(color: Color.fromARGB(255, 235, 235, 235), fontSize: 24),
@@ -206,7 +213,10 @@ class _StatefulLoginWidgetState extends State<StatefulLoginWidget> {
               text: 'here',
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  Navigator.push(context, SlideRightRoute(page: const RegisterScreen()));
+                  Navigator.push(
+                    context,
+                    SlideRightRoute(page: const RegisterScreen()),  // Correct usage
+                  );
                 },
               style: const TextStyle(
                 fontWeight: FontWeight.bold,

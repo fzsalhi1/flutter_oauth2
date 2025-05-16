@@ -5,13 +5,16 @@ class AuthService {
   // Méthode pour l'authentification via login
   Future<http.Response?> login(String email, String password) async {
     try {
-      final url = Uri.parse('http://192.168.145.131:8000/auth/login'); // Remplace par l'URL de ton API de login
+      final url = Uri.parse('http://192.168.145.131:8000/auth/login');
       final response = await http.post(
         url,
-        body: {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
           'email': email,
           'password': password,
-        },
+        }),
       );
       return response;
     } catch (e) {
@@ -23,14 +26,17 @@ class AuthService {
   // Méthode pour l'enregistrement d'un nouvel utilisateur
   Future<http.Response?> register(String email, String password, String name) async {
     try {
-      final url = Uri.parse('http://192.168.145.131:8000/auth/register'); // Remplace par l'URL de ton API d'enregistrement
+      final url = Uri.parse('http://192.168.145.131:8000/auth/register');
       final response = await http.post(
         url,
-        body: {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
           'email': email,
           'password': password,
           'name': name,
-        },
+        }),
       );
       return response;
     } catch (e) {
@@ -42,12 +48,15 @@ class AuthService {
   // Méthode pour rafraîchir le token via refreshToken
   Future<http.Response?> refreshToken(String refreshToken) async {
     try {
-      final url = Uri.parse('https://example.com/api/refresh_token'); // Remplace par l'URL de ton API pour rafraîchir le token
+      final url = Uri.parse('http://192.168.145.131:8000/auth/refresh_token');
       final response = await http.post(
         url,
-        body: {
-          'refresh_token': refreshToken,
+        headers: {
+          'Content-Type': 'application/json',
         },
+        body: jsonEncode({
+          'refresh_token': refreshToken,
+        }),
       );
       return response;
     } catch (e) {

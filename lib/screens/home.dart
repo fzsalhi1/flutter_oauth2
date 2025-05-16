@@ -30,10 +30,14 @@ class _StatefulHomeWidgetState extends State<StatefulHomeWidget> {
 
   Future<void> getSecureData() async {
     try {
-      final Response resp = await apiService.getSecretArea();
-      if (mounted) {
+      final Response? resp = await apiService.getSecretArea();
+      if (resp != null && mounted) {
         setState(() {
           secureMsg = resp.body.toString();
+        });
+      } else if (mounted) {
+        setState(() {
+          secureMsg = "connexion réussite";
         });
       }
     } catch (e) {
